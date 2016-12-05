@@ -10,7 +10,7 @@
 double pmvnorm(int dim, double *lower, double *upper, double *mean, double *cholCov){
 
   double alpha = 2.5;
-  double eps=0.0005;
+  double eps=0.001;
   //int Nmax=50+1;
 
   // Rprintf("\tPMVNORM LOWER BEFORE:"); printVec(lower,dim);
