@@ -291,9 +291,9 @@ extern "C" {
        // Rprintf("iteration: %i \n",s);
        // Rprintf("Proposing a value\n");
        do {
-        Rprintf("starting proposing-------------------------------------\n");
-        Rprintf("\tmean vector tmp_p2:"); printVec(tmp_p2,p);
-        Rprintf("\tsqrt of covariance matrix tmp_pp:"); printVec(tmp_pp,pp);
+        // Rprintf("starting proposing-------------------------------------\n");
+        // Rprintf("\tmean vector tmp_p2:"); printVec(tmp_p2,p);
+        // Rprintf("\tsqrt of covariance matrix tmp_pp:"); printVec(tmp_pp,pp);
 
         mvrnorm(tempbeta0, tmp_p2, tmp_pp, p);
 
@@ -323,7 +323,7 @@ extern "C" {
               acceptindicator=0;
             }
 
-            Rprintf("%i %i \n",sumbeta0, acceptindicator);
+            // Rprintf("%i %i \n",sumbeta0, acceptindicator);
        }while(acceptindicator==0);
         // beta0[0]=tempbeta0[0];
         // beta0[1]=tempbeta0[1];
@@ -365,15 +365,16 @@ extern "C" {
             Rprintf("mvrnorm\n");
             Rprintf("\tradius vector:"); printVec(radiusbeta0,p);
             Rprintf("\tmean vector:"); printVec(tmp_p2,p);
+            Rprintf("\tcholcov:"); printVec(tmp_pp,pp);
+
+            Rprintf("-------------------------------------------------\n");
             Rprintf("\tproposed vector:"); printVec(tempbeta0,p);
             Rprintf("\tproposed vector lower:"); printVec(lowerpropose,p);
             Rprintf("\tproposed vector upper:"); printVec(upperpropose,p);
-            Rprintf("proposed prob %f \n \n", valuepropose);
+            
 
             //printf("proposed prob %f \n", valuepropose);
             Rprintf("-------------------------------------------------\n");
-            Rprintf("\tradius vector:"); printVec(radiusbeta0,p);
-            Rprintf("\tmean vector:"); printVec(tmp_p2,p);
             Rprintf("\tcurrent vector:"); printVec(beta0,p);
             Rprintf("\tcurrent vector lower:"); printVec(lowercurrent,p);
             Rprintf("\tcurrent vector upper:"); printVec(uppercurrent,p);
