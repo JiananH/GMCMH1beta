@@ -328,9 +328,9 @@ extern "C" {
         // beta0[0]=tempbeta0[0];
         // beta0[1]=tempbeta0[1];
 
-       Rprintf("accept or not------------------------------------------\n");
-       Rprintf("\tcurrent value:"); printVec(beta0,p);
-       Rprintf("\tproposed value:"); printVec(tempbeta0,p);
+       // Rprintf("accept or not------------------------------------------\n");
+       // Rprintf("\tcurrent value:"); printVec(beta0,p);
+       // Rprintf("\tproposed value:"); printVec(tempbeta0,p);
 
 
        // printf("%f \n", prob);
@@ -571,12 +571,13 @@ extern "C" {
             Rprintf("\tcurrent vector:"); printVec(beta,p);
             Rprintf("\tcurrent vector lower:"); printVec(lowercurrentbeta,p);
             Rprintf("\tcurrent vector upper:"); printVec(uppercurrentbeta,p);
-   
-            valuecurrentbeta=pmvnorm(nop,lowercurrentbeta,uppercurrentbeta,tmp_p2,tmp_pp);
+      
             valueproposebeta=pmvnorm(nop,lowerproposebeta,upperproposebeta,tmp_p2,tmp_pp);
+            valuecurrentbeta=pmvnorm(nop,lowercurrentbeta,uppercurrentbeta,tmp_p2,tmp_pp);
             
-            Rprintf("proposed prob %0.5f \n \n", valueproposebeta);
-            Rprintf("current prob %0.5f \n \n", valuecurrentbeta);
+            
+            Rprintf("\n proposed prob %0.5f \n", valueproposebeta);
+            Rprintf("current prob %0.5f \n", valuecurrentbeta);
 
             double accept_prob_beta=(1-prob*valueproposebeta)/(1-valueproposebeta)*(1-valuecurrentbeta)/(1-prob*valuecurrentbeta);
             if (accept_prob_beta>=1) {

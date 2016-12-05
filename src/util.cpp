@@ -10,8 +10,8 @@
 double pmvnorm(int dim, double *lower, double *upper, double *mean, double *cholCov){
 
   double alpha = 2.5;
-  //double eps=0.0005;
-  int Nmax=10000+1;
+  double eps=0.0005;
+  //int Nmax=50+1;
 
   // Rprintf("\tPMVNORM LOWER BEFORE:"); printVec(lower,dim);
   // Rprintf("\tPMVNORM UPPER BEFORE:"); printVec(upper,dim);
@@ -48,21 +48,24 @@ double pmvnorm(int dim, double *lower, double *upper, double *mean, double *chol
 
   //for (int i = 0; i < Nmax; i++){
   int N=1;
-  double error=1.0;
+  double error=10.0;
   double product = 0.0;
-  for (N=1; N<Nmax; N++){
-  //do{
+  //for (int N=1; N<Nmax; N++){
+  do{
     for (int j = 0; j < (dim-1); j++){
       w[j]=runif(0.0, 1.0);
     }
     for (int i = 1; i < dim; i++){
       y[i-1]=qnorm(d[i-1]+w[i-1]*(e[i-1]-d[i-1]),0.0,1.0,1,0);
       //ansc<-ith row of cholCov from the first element to the (i-1)th
-      for (int l = 0; l < i; l++){
+      for (int l = 0; l < dim; l++){
         ansc[l]=cholCov[l*dim+1];
       }
+      for (int q = i; q < dim; q++){
+        ansc[q]=0;
+      }
       //product of ansc and y
-
+      product = 0.0;
       for (int m = 0; m < dim; m++){
         product = product + ansc[m]*y[m];
       }
@@ -71,13 +74,13 @@ double pmvnorm(int dim, double *lower, double *upper, double *mean, double *chol
       e[i]=pnorm((upper[i]-product)/cholCov[i*dim+i],0.0,1.0,1,0);
       f[i]=(e[i]-d[i])*(f[i-1]);
     }
-  // Rprintf("\t y:"); printVec(y,dim);
-  // Rprintf("\t d:"); printVec(d,dim);
-  // Rprintf("\t e:"); printVec(e,dim);
-  // Rprintf("\t f:"); printVec(f,dim);
-  // Rprintf("\t w:"); printVec(w,(dim-1));
-  // Rprintf("\t ansc:"); printVec(ansc,dim);
-  // Rprintf("\t product %0.5f", product);
+  Rprintf("\t y:"); printVec(y,dim);
+  Rprintf("\t d:"); printVec(d,dim);
+  Rprintf("\t e:"); printVec(e,dim);
+  Rprintf("\t f:"); printVec(f,dim);
+  Rprintf("\t w:"); printVec(w,(dim-1));
+  Rprintf("\t ansc:"); printVec(ansc,dim);
+  Rprintf("\t product %0.5f \n", product);
 
     double delta=(f[dim-1]-Intsum)/N;
     // Rprintf("\t PROB %0.5f", Intsum);
@@ -86,13 +89,13 @@ double pmvnorm(int dim, double *lower, double *upper, double *mean, double *chol
     Varsum = (N-2)*Varsum/N + delta*delta;
     error = alpha*sqrt(Varsum);
     // Rprintf("\t error %0.5f", error);
-    // Rprintf("\t N %d", N);
-    
-    // Rprintf("\t PROB %0.5f", Intsum);
-    // Rprintf("\t error %0.5f \n", error);
-  //  N = N + 1;
-  //}while(error>eps);
-  }
+    Rprintf("\t N %d", N);
+
+    Rprintf("\t PROB %0.5f", Intsum);
+    Rprintf("\t error %0.5f \n", error);
+  N = N + 1;
+  }while(error>eps);
+  //}
   return Intsum;
 
 }
