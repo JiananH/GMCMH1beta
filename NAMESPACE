@@ -1,4 +1,4 @@
-useDynLib(GMCMH1beta)
+useDynLib(GMCMH1beta1)
 export(iDist)
 export(spLM)
 export(mkSpCov)
