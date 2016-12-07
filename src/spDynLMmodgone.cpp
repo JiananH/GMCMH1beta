@@ -232,9 +232,9 @@ extern "C" {
     F77_NAME(dpotri)(lower, &p, SigmaEtaIW_S, &p, &info); if(info != 0){error("c++ error: dpotri failed 2.01\n");}
 
     if(verbose){
-      Rprintf("-------------------------------------------------\n");
-      Rprintf("\t\tSampling\n");
-      Rprintf("-------------------------------------------------\n");
+      // Rprintf("-------------------------------------------------\n");
+      // Rprintf("\t\tSampling\n");
+      // Rprintf("-------------------------------------------------\n");
       #ifdef Win32
         R_FlushConsole();
       #endif
@@ -256,8 +256,8 @@ extern "C" {
       F77_NAME(dpotrf)(lower, &p, tmp_pp, &p, &info); if(info != 0){error("c++ error: dpotrf2 failed\n");}
       F77_NAME(dpotri)(lower, &p, tmp_pp, &p, &info); if(info != 0){error("c++ error: dpotri failed\n");}
 
-      Rprintf("%i th sample-------------------------------------------\n",s);
-      Rprintf("\t covariance matrix tmp_pp:"); printVec(tmp_pp,pp);
+      // Rprintf("%i th sample-------------------------------------------\n",s);
+      // Rprintf("\t covariance matrix tmp_pp:"); printVec(tmp_pp,pp);
 
       //mu_Beta0
 
@@ -339,11 +339,11 @@ extern "C" {
        if (acceptindicator==1){
         beta0[0]=tempbeta0[0];
         beta0[1]=tempbeta0[1];
-        Rprintf("Middle\n");
+        // Rprintf("Middle\n");
        } else {
         // beta0[0]=tempbeta0[0];
         // beta0[1]=tempbeta0[1];
-        Rprintf("Out \n");
+        // Rprintf("Out \n");
 
         double *lowercurrent = (double *) R_alloc(p, sizeof(double));
         double *uppercurrent = (double *) R_alloc(p, sizeof(double));
@@ -361,23 +361,22 @@ extern "C" {
             double valuecurrent=0.0;
             double valuepropose=0.0;
 
-            Rprintf("-------------------------------------------------\n");
-            Rprintf("mvrnorm\n");
-            Rprintf("\tradius vector:"); printVec(radiusbeta0,p);
-            Rprintf("\tmean vector:"); printVec(tmp_p2,p);
-            Rprintf("\tcholcov:"); printVec(tmp_pp,pp);
+            // Rprintf("-------------------------------------------------\n");
+            // Rprintf("mvrnorm\n");
+            // Rprintf("\tradius vector:"); printVec(radiusbeta0,p);
+            // Rprintf("\tmean vector:"); printVec(tmp_p2,p);
+            // Rprintf("\tproposed vector:"); printVec(tempbeta0,p);
+            // Rprintf("\tproposed vector lower:"); printVec(lowerpropose,p);
+            // Rprintf("\tproposed vector upper:"); printVec(upperpropose,p);
+            // Rprintf("proposed prob %f \n \n", valuepropose);
 
-            Rprintf("-------------------------------------------------\n");
-            Rprintf("\tproposed vector:"); printVec(tempbeta0,p);
-            Rprintf("\tproposed vector lower:"); printVec(lowerpropose,p);
-            Rprintf("\tproposed vector upper:"); printVec(upperpropose,p);
-            
-
-            //printf("proposed prob %f \n", valuepropose);
-            Rprintf("-------------------------------------------------\n");
-            Rprintf("\tcurrent vector:"); printVec(beta0,p);
-            Rprintf("\tcurrent vector lower:"); printVec(lowercurrent,p);
-            Rprintf("\tcurrent vector upper:"); printVec(uppercurrent,p);
+            // //printf("proposed prob %f \n", valuepropose);
+            // Rprintf("-------------------------------------------------\n");
+            // Rprintf("\tradius vector:"); printVec(radiusbeta0,p);
+            // Rprintf("\tmean vector:"); printVec(tmp_p2,p);
+            // Rprintf("\tcurrent vector:"); printVec(beta0,p);
+            // Rprintf("\tcurrent vector lower:"); printVec(lowercurrent,p);
+            // Rprintf("\tcurrent vector upper:"); printVec(uppercurrent,p);
 
             valuecurrent=pmvnorm(nop,lowercurrent,uppercurrent,tmp_p2,tmp_pp);
             valuepropose=pmvnorm(nop,lowerpropose,upperpropose,tmp_p2,tmp_pp);
@@ -387,14 +386,14 @@ extern "C" {
             // Rprintf("\ttmp_pp:"); printVec(tmp_pp,pp);
             // Rprintf("\ttmp_p2:"); printVec(tmp_p2,p);
 
-            Rprintf("-------------------------------------------------\n");
+            // Rprintf("-------------------------------------------------\n");
             // Rprintf("mvrnorm\n");
             // Rprintf("\tradius vector:"); printVec(radiusbeta0,p);
             // Rprintf("\tmean vector:"); printVec(tmp_p2,p);
             // Rprintf("\tproposed vector:"); printVec(tempbeta0,p);
             // Rprintf("\tproposed vector lower:"); printVec(lowerpropose,p);
             // Rprintf("\tproposed vector upper:"); printVec(upperpropose,p);
-            Rprintf("proposed prob %f \n \n", valuepropose);
+            // Rprintf("proposed prob %f \n \n", valuepropose);
 
             // //printf("proposed prob %f \n", valuepropose);
             // Rprintf("-------------------------------------------------\n");
@@ -404,7 +403,7 @@ extern "C" {
             // Rprintf("\tcurrent vector lower:"); printVec(lowercurrent,p);
             // Rprintf("\tcurrent vector upper:"); printVec(uppercurrent,p);
             // //printf("current prob %f \n", valuecurrent);
-            Rprintf("current prob %f \n \n", valuecurrent);
+            // Rprintf("current prob %f \n \n", valuecurrent);
             double accept_prob=(1-prob*valuepropose)/(1-valuepropose)*(1-valuecurrent)/(1-prob*valuecurrent);
             if (accept_prob>=1) {
               accept_prob=1;
@@ -413,13 +412,13 @@ extern "C" {
         //     Rprintf("determine whether or not to accept the proposed value\n");
 
             //accept_prob=1;
-            Rprintf("alpha: %f \n \n", accept_prob);
+            // Rprintf("alpha: %f \n \n", accept_prob);
             if (runif(0.0,1.0)<accept_prob){
-              Rprintf("Accepted\n");
+              // Rprintf("Accepted\n");
             	beta0[0]=tempbeta0[0];
         		  beta0[1]=tempbeta0[1];
             } else {
-              Rprintf("Not Accepted\n");
+              // Rprintf("Not Accepted\n");
             }
             // printVec(tempbeta0,p);
             // printVec(beta0,p);
@@ -560,25 +559,25 @@ extern "C" {
             int nop=2;
             double valuecurrentbeta=0.0;
             double valueproposebeta=0.0;
-            Rprintf("-------------------------------------------------\n");
-            Rprintf("beta %i \n", t);
-            Rprintf("\tradius vector:"); printVec(radiusbeta,p);
-            Rprintf("\tmean vector:"); printVec(tmp_p2,p);
-            Rprintf("\tcholcov:"); printVec(tmp_pp,pp);
-            Rprintf("\tproposed vector:"); printVec(tempbeta,p);
-            Rprintf("\tproposed vector lower:"); printVec(lowerproposebeta,p);
-            Rprintf("\tproposed vector upper:"); printVec(upperproposebeta,p);
-            Rprintf("-------------------------------------------------\n");
-            Rprintf("\tcurrent vector:"); printVec(beta,p);
-            Rprintf("\tcurrent vector lower:"); printVec(lowercurrentbeta,p);
-            Rprintf("\tcurrent vector upper:"); printVec(uppercurrentbeta,p);
+            // Rprintf("-------------------------------------------------\n");
+            // Rprintf("beta %i \n", t);
+            // Rprintf("\tradius vector:"); printVec(radiusbeta,p);
+            // Rprintf("\tmean vector:"); printVec(tmp_p2,p);
+            // Rprintf("\tcholcov:"); printVec(tmp_pp,pp);
+            // Rprintf("\tproposed vector:"); printVec(tempbeta,p);
+            // Rprintf("\tproposed vector lower:"); printVec(lowerproposebeta,p);
+            // Rprintf("\tproposed vector upper:"); printVec(upperproposebeta,p);
+            // Rprintf("-------------------------------------------------\n");
+            // Rprintf("\tcurrent vector:"); printVec(beta,p);
+            // Rprintf("\tcurrent vector lower:"); printVec(lowercurrentbeta,p);
+            // Rprintf("\tcurrent vector upper:"); printVec(uppercurrentbeta,p);
       
             valueproposebeta=pmvnorm(nop,lowerproposebeta,upperproposebeta,tmp_p2,tmp_pp);
             valuecurrentbeta=pmvnorm(nop,lowercurrentbeta,uppercurrentbeta,tmp_p2,tmp_pp);
             
             
-            Rprintf("\n proposed prob %0.5f \n", valueproposebeta);
-            Rprintf("current prob %0.5f \n", valuecurrentbeta);
+            // Rprintf("\n proposed prob %0.5f \n", valueproposebeta);
+            // Rprintf("current prob %0.5f \n", valuecurrentbeta);
 
             double accept_prob_beta=(1-prob*valueproposebeta)/(1-valueproposebeta)*(1-valuecurrentbeta)/(1-prob*valuecurrentbeta);
             if (accept_prob_beta>=1) {
