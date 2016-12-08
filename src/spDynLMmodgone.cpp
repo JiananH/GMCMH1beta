@@ -542,7 +542,7 @@ extern "C" {
        if (acceptindicator==1){
         beta[t*p]=tempbeta[0];
         beta[t*p+1]=tempbeta[1];
-        Rprintf("-------------------Middle------------------\n");
+        // Rprintf("-------------------Middle------------------\n");
        } else {
         double *lowercurrentbeta = (double *) R_alloc(p, sizeof(double));
         double *uppercurrentbeta = (double *) R_alloc(p, sizeof(double));
@@ -583,15 +583,15 @@ extern "C" {
             if (accept_prob_beta>=1) {
               accept_prob_beta=1;
             }
-            Rprintf("-------------------------------------------------\n");
-            Rprintf("determine whether or not to accept the proposed value\n");
-            Rprintf("alpha: %f \n \n", accept_prob_beta);
+            // Rprintf("-------------------------------------------------\n");
+            // Rprintf("determine whether or not to accept the proposed value\n");
+            // Rprintf("alpha: %f \n \n", accept_prob_beta);
             if (runif(0.0,1.0)<accept_prob_beta){
-              Rprintf("Accepted\n");
+              // Rprintf("Accepted\n");
               beta[t*p]=tempbeta[0];
               beta[t*p+1]=tempbeta[1];
             } else {
-              Rprintf("Not Accepted\n");
+              // Rprintf("Not Accepted\n");
             }
        }
 
